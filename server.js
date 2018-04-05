@@ -24,7 +24,8 @@ var PostSchema = new mongoose.Schema({
 //Comments Schema
 var CommentSchema = new mongoose.Schema({
     _post:{type: Schema.Types.ObjectId, ref:'Post'},//the comment belongs to a post
-    text: {type: String, required: true}//the comment
+    text: {type: String, required: true},//the comment
+    name: {type: String, required:true, minlength: 4}
     },
     {timestamps: true} //add timestamps
 )
@@ -73,6 +74,27 @@ app.post('/processMessage',function(req,res){
         console.log('error', error);
     })
 })
+
+ app.post('/processComment/:id',function(req,res){
+    console.log(req.body);
+    Post.findOne({_id:req.params.id},function(err,post){
+        if (err){
+            console.log('error while finding that post');
+        }else{
+            var comment = new Comment(req.body);
+            comment._post = post._id //attach the post id to the comment id
+            post.comments.push(comment);// attach he comment id to the post's comment array
+            comment.save(function(err){ //commit the comment to the table.
+                if(err){console.log('error while saving comment');}
+                post.save(function(err){ //save the post with the new comments
+                    if (err){console.log('error while saving post and comment');}
+                    else {res.redirect('/');}
+                })
+            })    
+        }
+    })
+})
+
 
 // Setting our Server to Listen on Port: 8000
 app.listen(8000, function() {

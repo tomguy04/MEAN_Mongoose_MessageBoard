@@ -13,6 +13,7 @@
         <table border = 1>
             <thead>
                 <tr>
+                    <th>id</th>
                     <th>Name</th>
                     <th>Post</th>
                     <th>Comments</th>
@@ -20,15 +21,26 @@
             </thead>
         <% for (const post of posts) { %>
             <tr>
+              <td><%= post._id %></td>
               <td><%= post.name %></td>
               <td><%= post.text %>
                 <!-- form for comment , action pass the id of the post-->
-                <form action="processComment/:id" method="post">
+                <form action="processComment/<%= post._id %>" method="post">
+                    <p>Name: <input type = 'text' name = 'name'></p>
                     <p>Enter Comment<input type = 'text' name = 'text'></p>
                     <input type = 'submit' value = 'Submit'>
                 </form>
               </td>
-              <td>comments here</td>
+              <td><!--comments here-->
+                
+                <% for (const comment of post.comments) { %>
+                    Name : <%= comment.name %><br> 
+                    Comment : <%= comment.text %>
+                    <HR>
+                     
+                <% } %>
+                
+              </td>
             </tr>
           <% } %>
         </table>
