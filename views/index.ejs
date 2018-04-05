@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- <script type ="text/javascript">
+    //console.log(JSON.stringify(users));
+    </script> -->
+    <title>Message Board</title>
+</head>
+    <body>
+        <table border = 1>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Post</th>
+                    <th>Comments</th>
+                </tr>
+            </thead>
+        <% for (const post of posts) { %>
+            <tr>
+              <td><%= post.name %></td>
+              <td><%= post.text %>
+                <!-- form for comment , action pass the id of the post-->
+                <form action="processComment/:id" method="post">
+                    <p>Enter Comment<input type = 'text' name = 'text'></p>
+                    <input type = 'submit' value = 'Submit'>
+                </form>
+              </td>
+              <td>comments here</td>
+            </tr>
+          <% } %>
+        </table>
+
+        <form action='processMessage' method='post'>
+            <p>Your Name:<input type='text' name='name'></p>
+            <p>Your Post:<input type='text' name='text'></p>
+            <input type='submit' value='Submit'>
+        </form>
+    </body>
+</html>
